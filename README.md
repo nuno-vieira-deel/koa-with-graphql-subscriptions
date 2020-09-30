@@ -1,5 +1,5 @@
 # Koa with graphql subscriptions
-Example of a Koa server with graphql subscriptions using Apollo Server (WIP - not working).
+Example of a Koa server with graphql subscriptions using Apollo Server (Not working due to [this issue](https://github.com/apollographql/apollo-server/issues/4606)).
 
 # How to use
 
