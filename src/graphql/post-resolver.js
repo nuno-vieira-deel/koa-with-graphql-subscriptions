@@ -14,14 +14,12 @@ export default {
     }
   },
   Query: {
-    health: async (root, args, context, info) => {
-      console.log('Working...');
-    }
+    health: () => console.log('Working...')
   },
   Subscription: {
     newPost: {
       resolve: ({ newPost }) => newPost,
-      subscribe: pubsub.asyncIterator(topic)
+      subscribe: () => pubsub.asyncIterator(topic)
     }
   }
 };

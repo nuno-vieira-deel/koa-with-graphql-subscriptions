@@ -1,29 +1,16 @@
-import { ApolloServer, makeExecutableSchema } from 'apollo-server-koa';
+import { ApolloServer } from 'apollo-server-koa';
 import postResolver from './post-resolver';
 import postSchema from './post-schema';
 
 // Apollo server initialization
 export default new ApolloServer({
-  context: async ({ ctx, connection }) => {
-    if (connection) {
-      return connection.context;
-    } else {
-      return ctx;
-    }
-  },
+  context: ({ ctx, connection }) => connection ? connection.context : ctx,
   debug: true,
-  schema: makeExecutableSchema({
-    resolverValidationOptions: { requireResolversForResolveType: false },
-    resolvers: [postResolver],
-    typeDefs: [postSchema]
-  }),
+  resolvers: [postResolver],
   subscriptions: {
-    path: "/subscriptions",
-    onConnect: async (connectionParams, webSocket, context) => {
-      console.log(`Subscription client connected.`)
-    },
-    onDisconnect: async (webSocket, context) => {
-      console.log(`Subscription client disconnected.`)
-    }
-  }
+    path: '/subscriptions',
+    onConnect: () => console.log(`Subscription client connected.`),
+    onDisconnect: () => console.log(`Subscription client disconnected.`)
+  },
+  typeDefs: [postSchema]
 });
